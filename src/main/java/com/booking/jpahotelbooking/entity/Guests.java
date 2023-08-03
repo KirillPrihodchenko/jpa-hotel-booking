@@ -15,7 +15,7 @@ import lombok.Setter;
 @Table (
         name = "guests",
         uniqueConstraints = {
-                @UniqueConstraint(name = "guest_passport_info", columnNames = "passport_info")
+                @UniqueConstraint(name = "passport_info", columnNames = "passport_info")
         }
 )
 public class Guests {
