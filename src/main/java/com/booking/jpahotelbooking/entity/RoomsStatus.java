@@ -1,15 +1,24 @@
 package com.booking.jpahotelbooking.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 
 @Entity
 @Table (
@@ -33,11 +42,9 @@ public class RoomsStatus {
     )
     private Boolean roomStatus;
 
-    @Override
-    public String toString() {
-        return "RoomsStatus{" +
-                "id=" + id +
-                ", roomStatus=" + roomStatus +
-                '}';
-    }
+    @OneToOne
+    @JoinColumn (
+            name = "room_status_id"
+    )
+    private Rooms rooms;
 }

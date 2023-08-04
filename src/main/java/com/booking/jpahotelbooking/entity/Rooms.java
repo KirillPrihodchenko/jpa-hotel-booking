@@ -1,12 +1,13 @@
 package com.booking.jpahotelbooking.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
@@ -14,8 +15,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -25,52 +24,63 @@ import java.util.List;
 
 @Entity
 @Table (
-        name = "guests",
+        name = "rooms",
         uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "guest_passport_info_unique",
-                        columnNames = "passport_info"
+                @UniqueConstraint(name = "room_name_unique",
+                        columnNames = "room_name"
                 )
         }
 )
-public class Guests {
+public class Rooms {
 
     @Id
-    @Column (
-            name = "guest_id",
-            nullable = false
-    )
     @GeneratedValue (
             strategy = GenerationType.IDENTITY
     )
+    @Column (
+            name = "room_id",
+            nullable = false
+    )
     private Long id;
 
-    @Column (
-            name = "first_name",
+    @OneToOne (
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn (
+            name = "room_type_id",
             nullable = false
     )
-    private String firstName;
+    private RoomsType roomsType;
 
-    @Column (
-            name = "last_name",
+    @OneToOne (
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn (
+            name = "room_status_id",
             nullable = false
     )
-    private String lastName;
+    private RoomsStatus roomsStatus;
 
     @Column (
-            name = "phone"
-    )
-    private String phone;
-
-    @Column (
-            name = "passport_info",
+            name = "room_capacity",
             nullable = false
     )
-    private String passportInfo;
+    private Integer roomCapacity;
 
-    @ManyToMany
+    @Column (
+            name = "room_name",
+            nullable = false
+    )
+    private Integer roomName;
+
+    @Column (
+            name = "room_price"
+    )
+    private Double roomPrice;
+
+    @OneToOne
     @JoinColumn (
             name = "registration_id"
     )
-    private List<Registration> registration;
+    private Registration registration;
 }

@@ -1,15 +1,24 @@
 package com.booking.jpahotelbooking.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 
 @Entity
 @Table (
@@ -32,4 +41,10 @@ public class RoomsType {
             nullable = false
     )
     private String roomType;
+
+    @OneToOne
+    @JoinColumn (
+            name = "room_type_id"
+    )
+    private Rooms rooms;
 }

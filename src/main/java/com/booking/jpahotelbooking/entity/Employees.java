@@ -1,12 +1,12 @@
 package com.booking.jpahotelbooking.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
@@ -14,8 +14,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -25,25 +23,36 @@ import java.util.List;
 
 @Entity
 @Table (
-        name = "guests",
+        name = "employees",
         uniqueConstraints = {
                 @UniqueConstraint(
-                        name = "guest_passport_info_unique",
+                        name = "employee_passport_info_unique",
                         columnNames = "passport_info"
                 )
         }
 )
-public class Guests {
+public class Employees {
 
     @Id
     @Column (
-            name = "guest_id",
+            name = "employee_id",
             nullable = false
     )
-    @GeneratedValue (
-            strategy = GenerationType.IDENTITY
-    )
     private Long id;
+
+    @ManyToOne
+    @JoinColumn (
+            name = "hotel_id"
+    )
+    private Hotel hotel;
+
+    @OneToOne (
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn (
+            name = "role_id"
+    )
+    private Roles roles;
 
     @Column (
             name = "first_name",
@@ -63,14 +72,13 @@ public class Guests {
     private String phone;
 
     @Column (
+            name = "salary"
+    )
+    private Double salary;
+
+    @Column (
             name = "passport_info",
             nullable = false
     )
     private String passportInfo;
-
-    @ManyToMany
-    @JoinColumn (
-            name = "registration_id"
-    )
-    private List<Registration> registration;
 }
