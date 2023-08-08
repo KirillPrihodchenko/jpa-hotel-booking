@@ -1,13 +1,6 @@
 package com.booking.jpahotelbooking.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +23,9 @@ import java.util.Set;
 public class Hotel {
 
     @Id
+    @GeneratedValue (
+            strategy = GenerationType.IDENTITY
+    )
     @Column (
             name = "hotel_id",
             nullable = false
