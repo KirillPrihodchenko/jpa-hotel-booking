@@ -79,8 +79,5 @@ public class Rooms {
     private Double roomPrice;
 
     @OneToOne
-    @JoinColumn (
-            name = "registration_id"
-    )
     private Registration registration;
 }

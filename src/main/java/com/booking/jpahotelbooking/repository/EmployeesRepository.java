@@ -10,6 +10,4 @@ import java.util.Optional;
 public interface EmployeesRepository extends CrudRepository<Employees, Long> {
 
     Optional<Employees> findByLastNameAndPassportInfo(String lastName, String passportInfo);
-
-    int deleteEmployeeById(Long id);
 }

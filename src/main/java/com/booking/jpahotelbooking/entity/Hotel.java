@@ -15,6 +15,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -59,5 +60,5 @@ public class Hotel {
     @OneToMany (
             cascade = CascadeType.ALL
     )
-    private List<Employees> employees;
+    private Set<Employees> employees;
 }

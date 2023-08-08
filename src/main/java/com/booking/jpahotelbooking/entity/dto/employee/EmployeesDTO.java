@@ -1,12 +1,12 @@
-package com.booking.jpahotelbooking.entity.dto;
+package com.booking.jpahotelbooking.entity.dto.employee;
 
-import com.booking.jpahotelbooking.entity.Roles;
+import com.booking.jpahotelbooking.entity.dto.role.RoleDTO;
 import lombok.Data;
 
 @Data
 public class EmployeesDTO {
 
-    private Roles roles;
+    private RoleDTO roles;
     private String firstName;
     private String lastName;
 }

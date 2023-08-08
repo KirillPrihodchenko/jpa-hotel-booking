@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -15,7 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -69,8 +68,5 @@ public class Guests {
     private String passportInfo;
 
     @ManyToMany
-    @JoinColumn (
-            name = "registration_id"
-    )
-    private List<Registration> registration;
+    private Set<Registration> registration;
 }

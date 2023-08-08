@@ -43,8 +43,5 @@ public class RoomsStatus {
     private Boolean roomStatus;
 
     @OneToOne
-    @JoinColumn (
-            name = "room_status_id"
-    )
     private Rooms rooms;
 }
