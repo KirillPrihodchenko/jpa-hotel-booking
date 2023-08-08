@@ -1,4 +1,5 @@
 # jpa-hotel-booking
 
-**Database model diagram v1**
-![img.png](img.png)
+### ERD Diagram of the project
+
+![booking.png](hotel-booking-update-version.png)
