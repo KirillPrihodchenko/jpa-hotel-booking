@@ -18,4 +18,9 @@ public class RoomsMapper implements GenericMapper<RoomsDTO, Rooms> {
     public RoomsDTO convertToDto(Rooms entity) {
         return modelMapper.map(entity, RoomsDTO.class);
     }
+
+    @Override
+    public Rooms convertFromDto(RoomsDTO roomsDTO) {
+        return modelMapper.map(roomsDTO, Rooms.class);
+    }
 }

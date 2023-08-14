@@ -18,4 +18,9 @@ public class RoleMapper implements GenericMapper<RoleDTO, Roles> {
     public RoleDTO convertToDto(Roles entity) {
         return modelMapper.map(entity, RoleDTO.class);
     }
+
+    @Override
+    public Roles convertFromDto(RoleDTO roleDTO) {
+        return modelMapper.map(roleDTO, Roles.class);
+    }
 }

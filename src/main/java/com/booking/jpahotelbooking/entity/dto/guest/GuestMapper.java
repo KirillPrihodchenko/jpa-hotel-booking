@@ -18,4 +18,9 @@ public class GuestMapper implements GenericMapper<GuestDTO, Guests> {
     public GuestDTO convertToDto(Guests entity) {
         return modelMapper.map(entity, GuestDTO.class);
     }
+
+    @Override
+    public Guests convertFromDto(GuestDTO guestDTO) {
+        return modelMapper.map(guestDTO, Guests.class);
+    }
 }

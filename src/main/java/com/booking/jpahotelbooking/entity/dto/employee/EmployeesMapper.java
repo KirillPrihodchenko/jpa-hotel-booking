@@ -22,4 +22,9 @@ public class EmployeesMapper implements GenericMapper<EmployeesDTO, Employees> {
         employeesDTO.setRoles(modelMapper.map(entity.getRoles(), RoleDTO.class));
         return employeesDTO;
     }
+
+    @Override
+    public Employees convertFromDto(EmployeesDTO employeesDTO) {
+        return modelMapper.map(employeesDTO, Employees.class);
+    }
 }
