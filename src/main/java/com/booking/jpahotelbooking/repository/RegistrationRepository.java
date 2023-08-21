@@ -12,6 +12,6 @@ import java.util.Optional;
 @Repository
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
 
-    @Query("SELECT r FROM Registration r WHERE r.tsCheckIn = ?")
+    @Query("SELECT r FROM Registration r WHERE r.tsCheckIn = :timeIn")
     Optional<List<Registration>> findRegistrationByTsCheckIn(LocalDateTime timeIn);
 }
