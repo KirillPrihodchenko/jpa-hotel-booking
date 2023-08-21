@@ -6,7 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GuestMapper implements GenericMapper<GuestDTO, Guests> {
+public class GuestMapper implements GenericMapper<GuestRequestDTO, GuestResponseDTO, Guests> {
 
     private final ModelMapper modelMapper;
 
@@ -15,12 +15,12 @@ public class GuestMapper implements GenericMapper<GuestDTO, Guests> {
     }
 
     @Override
-    public GuestDTO convertToDto(Guests entity) {
-        return modelMapper.map(entity, GuestDTO.class);
+    public Guests convertToEntity(GuestRequestDTO guestRequestDTO) {
+        return modelMapper.map(guestRequestDTO, Guests.class);
     }
 
     @Override
-    public Guests convertFromDto(GuestDTO guestDTO) {
-        return modelMapper.map(guestDTO, Guests.class);
+    public GuestResponseDTO convertToDto(Guests guests) {
+        return modelMapper.map(guests, GuestResponseDTO.class);
     }
 }

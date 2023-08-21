@@ -1,8 +1,8 @@
 package com.booking.jpahotelbooking.mapper;
 
-public interface GenericMapper<DTO, E> {
+public interface GenericMapper<reqDTO, resDTO, E> {
 
-    DTO convertToDto(E entity);
+    resDTO convertToDto(E entity);
 
-    E convertFromDto(DTO dto);
+    E convertToEntity(reqDTO dto);
 }

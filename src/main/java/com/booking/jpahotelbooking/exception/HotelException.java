@@ -1,0 +1,8 @@
+package com.booking.jpahotelbooking.exception;
+
+public class HotelException extends Exception {
+
+    public HotelException(String message) {
+        super(message);
+    }
+}

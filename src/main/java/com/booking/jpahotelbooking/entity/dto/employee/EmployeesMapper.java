@@ -1,13 +1,12 @@
 package com.booking.jpahotelbooking.entity.dto.employee;
 
 import com.booking.jpahotelbooking.entity.Employees;
-import com.booking.jpahotelbooking.entity.dto.role.RoleDTO;
 import com.booking.jpahotelbooking.mapper.GenericMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EmployeesMapper implements GenericMapper<EmployeesDTO, Employees> {
+public class EmployeesMapper implements GenericMapper<EmployeeRequestDTO, EmployeeResponseDTO, Employees> {
 
     private final ModelMapper modelMapper;
 
@@ -15,16 +14,13 @@ public class EmployeesMapper implements GenericMapper<EmployeesDTO, Employees> {
         this.modelMapper = modelMapper;
     }
 
-    // get role from RoleDTO and insert role into EmployeesDTO
     @Override
-    public EmployeesDTO convertToDto(Employees entity) {
-        EmployeesDTO employeesDTO = modelMapper.map(entity, EmployeesDTO.class);
-        employeesDTO.setRoles(modelMapper.map(entity.getRoles(), RoleDTO.class));
-        return employeesDTO;
+    public EmployeeResponseDTO convertToDto(Employees entity) {
+        return modelMapper.map(entity, EmployeeResponseDTO.class);
     }
 
     @Override
-    public Employees convertFromDto(EmployeesDTO employeesDTO) {
-        return modelMapper.map(employeesDTO, Employees.class);
+    public Employees convertToEntity(EmployeeRequestDTO employeeRequestDTO) {
+        return modelMapper.map(employeeRequestDTO, Employees.class);
     }
 }

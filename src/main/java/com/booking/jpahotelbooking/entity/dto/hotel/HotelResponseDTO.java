@@ -9,7 +9,7 @@ import lombok.Data;
 import java.util.Set;
 
 @Data
-public class HotelDTO {
+public class HotelResponseDTO {
 
     @NotEmpty
     private String hotelName;

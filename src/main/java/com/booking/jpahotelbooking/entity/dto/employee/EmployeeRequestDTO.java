@@ -7,16 +7,15 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class EmployeesDTO {
+public class EmployeeRequestDTO {
 
     private Hotel hotel;
-
     @NotNull
     private RoleDTO roles;
-
     @NotEmpty
     private String firstName;
-
     @NotEmpty
     private String lastName;
+    private Double salary;
+    private String phone;
 }

@@ -1,12 +1,11 @@
 package com.booking.jpahotelbooking.entity.dto.role;
 
 import com.booking.jpahotelbooking.entity.Roles;
-import com.booking.jpahotelbooking.mapper.GenericMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RoleMapper implements GenericMapper<RoleDTO, Roles> {
+public class RoleMapper {
 
     private final ModelMapper modelMapper;
 
@@ -14,13 +13,11 @@ public class RoleMapper implements GenericMapper<RoleDTO, Roles> {
         this.modelMapper = modelMapper;
     }
 
-    @Override
     public RoleDTO convertToDto(Roles entity) {
         return modelMapper.map(entity, RoleDTO.class);
     }
 
-    @Override
-    public Roles convertFromDto(RoleDTO roleDTO) {
+    public Roles convertToEntity(RoleDTO roleDTO) {
         return modelMapper.map(roleDTO, Roles.class);
     }
 }

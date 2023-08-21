@@ -19,7 +19,7 @@ import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -62,13 +62,13 @@ public class Registration {
     @Column (
             name = "ts_check_in"
     )
-    private Timestamp tsCheckIn;
+    private LocalDateTime tsCheckIn;
 
     @UpdateTimestamp
     @Column (
             name = "ts_check_out"
     )
-    private Timestamp tsCheckOut;
+    private LocalDateTime tsCheckOut;
 
     @ManyToOne
     private Hotel hotel;

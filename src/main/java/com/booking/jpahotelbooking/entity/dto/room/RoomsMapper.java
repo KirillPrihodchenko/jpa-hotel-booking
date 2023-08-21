@@ -6,7 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RoomsMapper implements GenericMapper<RoomsDTO, Rooms> {
+public class RoomsMapper implements GenericMapper<RoomsRequestDTO, RoomsResponseDTO, Rooms> {
 
     private final ModelMapper modelMapper;
 
@@ -15,12 +15,12 @@ public class RoomsMapper implements GenericMapper<RoomsDTO, Rooms> {
     }
 
     @Override
-    public RoomsDTO convertToDto(Rooms entity) {
-        return modelMapper.map(entity, RoomsDTO.class);
+    public RoomsResponseDTO convertToDto(Rooms entity) {
+        return modelMapper.map(entity, RoomsResponseDTO.class);
     }
 
     @Override
-    public Rooms convertFromDto(RoomsDTO roomsDTO) {
-        return modelMapper.map(roomsDTO, Rooms.class);
+    public Rooms convertToEntity(RoomsRequestDTO roomsRequestDTO) {
+        return modelMapper.map(roomsRequestDTO, Rooms.class);
     }
 }
