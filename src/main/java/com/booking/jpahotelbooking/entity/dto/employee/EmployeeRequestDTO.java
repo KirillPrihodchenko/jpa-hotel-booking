@@ -9,13 +9,13 @@ import lombok.Data;
 @Data
 public class EmployeeRequestDTO {
 
-    private Hotel hotel;
-    @NotNull
-    private RoleDTO roles;
     @NotEmpty
     private String firstName;
     @NotEmpty
     private String lastName;
-    private Double salary;
+    @NotNull
+    private RoleDTO roles;
+    private Hotel hotel;
     private String phone;
+    private Double salary;
 }

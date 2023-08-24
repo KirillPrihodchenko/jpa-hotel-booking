@@ -1,14 +1,17 @@
 package com.booking.jpahotelbooking.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -32,14 +35,6 @@ public class Hotel {
     )
     private Long id;
 
-    @OneToMany (
-            cascade = CascadeType.ALL
-    )
-    @JoinColumn (
-            name = "registration_id"
-    )
-    private List<Registration> registration;
-
     @Column (
             name = "hotel_name",
             nullable = false
@@ -52,9 +47,4 @@ public class Hotel {
     )
     @Embedded
     private HotelLocation hotelLocation;
-
-    @OneToMany (
-            cascade = CascadeType.ALL
-    )
-    private Set<Employees> employees;
 }

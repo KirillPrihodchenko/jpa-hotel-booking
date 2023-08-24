@@ -7,10 +7,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,63 +23,69 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder(toBuilder = true)
 
 @Entity
 @Table (
-        name = "rooms",
+        name = "employees",
         uniqueConstraints = {
-                @UniqueConstraint(name = "room_name_unique",
-                        columnNames = "room_name"
+                @UniqueConstraint(
+                        name = "employee_passport_info_unique",
+                        columnNames = "passport_info"
                 )
         }
 )
-public class Rooms {
+public class Employee {
 
     @Id
     @GeneratedValue (
             strategy = GenerationType.IDENTITY
     )
     @Column (
-            name = "room_id",
+            name = "employee_id",
             nullable = false
     )
     private Long id;
 
+    @ManyToOne
+    @JoinColumn (
+            name = "hotel_id"
+    )
+    private Hotel hotel;
+
     @OneToOne (
             cascade = CascadeType.ALL
     )
     @JoinColumn (
-            name = "room_type_id",
-            nullable = false
+            name = "role_id"
     )
-    private RoomsType roomsType;
-
-    @OneToOne (
-            cascade = CascadeType.ALL
-    )
-    @JoinColumn (
-            name = "room_status_id",
-            nullable = false
-    )
-    private RoomsStatus roomsStatus;
+    private Role roles;
 
     @Column (
-            name = "room_capacity",
+            name = "first_name",
             nullable = false
     )
-    private Integer roomCapacity;
+    private String firstName;
 
     @Column (
-            name = "room_name",
+            name = "last_name",
             nullable = false
     )
-    private Integer roomName;
+    private String lastName;
 
     @Column (
-            name = "room_price"
+            name = "phone"
     )
-    private Double roomPrice;
+    private String phone;
 
-    @OneToOne
-    private Registration registration;
+    @Column (
+            name = "salary"
+    )
+    private Double salary;
+
+    @Column (
+            name = "passport_info",
+            nullable = false
+    )
+    private String passportInfo;
 }

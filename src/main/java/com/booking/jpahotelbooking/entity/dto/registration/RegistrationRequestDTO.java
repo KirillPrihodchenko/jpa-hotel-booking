@@ -1,6 +1,6 @@
 package com.booking.jpahotelbooking.entity.dto.registration;
 
-import com.booking.jpahotelbooking.entity.Rooms;
+import com.booking.jpahotelbooking.entity.Room;
 import com.booking.jpahotelbooking.entity.dto.guest.GuestResponseDTO;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
@@ -12,7 +12,7 @@ public class RegistrationRequestDTO {
 
     private GuestResponseDTO responseDTO;
     @NotEmpty
-    private Rooms rooms;
+    private Room rooms;
     private LocalDateTime tsCheckIn;
     private LocalDateTime tsCheckOut;
 }

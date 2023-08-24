@@ -1,14 +1,13 @@
 package com.booking.jpahotelbooking.entity.dto.room;
 
-import com.booking.jpahotelbooking.entity.Rooms;
-import com.booking.jpahotelbooking.entity.RoomsType;
+import com.booking.jpahotelbooking.entity.RoomType;
 
 import lombok.Data;
 
 @Data
-public class RoomsRequestDTO {
+public class RoomRequestDTO {
 
-    private RoomsType roomsType;
+    private RoomType roomsType;
     private Integer roomCapacity;
     private Integer roomName;
     private Double roomPrice;

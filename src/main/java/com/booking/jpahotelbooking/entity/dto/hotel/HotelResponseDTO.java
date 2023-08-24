@@ -1,7 +1,8 @@
 package com.booking.jpahotelbooking.entity.dto.hotel;
 
-import com.booking.jpahotelbooking.entity.Employees;
+import com.booking.jpahotelbooking.entity.Employee;
 import com.booking.jpahotelbooking.entity.HotelLocation;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -15,5 +16,6 @@ public class HotelResponseDTO {
     private String hotelName;
     @NotNull
     private HotelLocation hotelLocation;
-    private Set<Employees> employees;
+    @JsonIgnore
+    private Set<Employee> employees;
 }

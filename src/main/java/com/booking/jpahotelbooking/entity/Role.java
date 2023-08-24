@@ -2,11 +2,11 @@ package com.booking.jpahotelbooking.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,32 +16,34 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
 
 @Entity
 @Table (
-        name = "rooms_status"
+        name="roles"
 )
-public class RoomsStatus {
+public class Role {
 
     @Id
     @GeneratedValue (
             strategy = GenerationType.IDENTITY
     )
     @Column (
-            name = "room_status_id",
+            name = "role_id",
             nullable = false
     )
     private Long id;
 
     @Column (
-            name = "room_status",
+            name = "role_name",
             nullable = false
     )
-    private Boolean roomStatus;
+    @Enumerated(EnumType.STRING)
+    private RoleName roleName;
 
-    @OneToOne
-    private Rooms rooms;
+    public enum RoleName {
+        ADMIN, MANAGER, USER
+    }
 }

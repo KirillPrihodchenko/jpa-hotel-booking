@@ -5,13 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 
 @Embeddable
 public class HotelLocation {
@@ -20,4 +18,14 @@ public class HotelLocation {
     private String region;
     private String city;
     private String address;
+
+    @Override
+    public String toString() {
+        return "HotelLocation{" +
+                "country='" + country + '\'' +
+                ", region='" + region + '\'' +
+                ", city='" + city + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
 }

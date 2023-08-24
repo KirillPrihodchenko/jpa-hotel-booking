@@ -1,6 +1,6 @@
 package com.booking.jpahotelbooking.entity.dto.role;
 
-import com.booking.jpahotelbooking.entity.Roles;
+import com.booking.jpahotelbooking.entity.Role;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -13,11 +13,11 @@ public class RoleMapper {
         this.modelMapper = modelMapper;
     }
 
-    public RoleDTO convertToDto(Roles entity) {
+    public RoleDTO convertToDto(Role entity) {
         return modelMapper.map(entity, RoleDTO.class);
     }
 
-    public Roles convertToEntity(RoleDTO roleDTO) {
-        return modelMapper.map(roleDTO, Roles.class);
+    public Role convertToEntity(RoleDTO roleDTO) {
+        return modelMapper.map(roleDTO, Role.class);
     }
 }

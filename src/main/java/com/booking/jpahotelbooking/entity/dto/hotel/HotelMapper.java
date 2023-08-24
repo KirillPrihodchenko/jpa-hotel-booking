@@ -16,8 +16,4 @@ public class HotelMapper {
     public HotelResponseDTO convertToDto(Hotel entity) {
         return modelMapper.map(entity, HotelResponseDTO.class);
     }
-
-    public Hotel convertToEntity(HotelResponseDTO hotelDTO) {
-        return modelMapper.map(hotelDTO, Hotel.class);
-    }
 }

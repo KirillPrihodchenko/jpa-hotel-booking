@@ -15,32 +15,29 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 
 @Entity
 @Table (
-        name = "rooms_type"
+        name = "rooms_status"
 )
-public class RoomsType {
+public class RoomStatus {
 
     @Id
-    @Column (
-            name = "room_type_id",
-            nullable = false
-    )
     @GeneratedValue (
             strategy = GenerationType.IDENTITY
+    )
+    @Column (
+            name = "room_status_id",
+            nullable = false
     )
     private Long id;
 
     @Column (
-            name = "room_type",
+            name = "room_status",
             nullable = false
     )
-    private String roomType;
-
-    @OneToOne
-    private Rooms rooms;
+    private Boolean roomStatus;
 }

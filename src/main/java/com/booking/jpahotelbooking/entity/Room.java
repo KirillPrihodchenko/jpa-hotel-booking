@@ -7,20 +7,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -30,46 +24,57 @@ import java.util.List;
 
 @Entity
 @Table (
-        name = "registration"
+        name = "rooms",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "room_name_unique",
+                        columnNames = "room_name"
+                )
+        }
 )
-public class Registration {
+public class Room {
 
     @Id
     @GeneratedValue (
             strategy = GenerationType.IDENTITY
     )
     @Column (
-            name = "registration_id"
-    )
-    private Long id;
-
-    @ManyToMany (
-            cascade = CascadeType.ALL
-    )
-    @JoinColumn (
-            name = "guest_id"
-    )
-    private List<Guest> guests;
-
-    @OneToOne
-    @JoinColumn (
             name = "room_id",
             nullable = false
     )
-    private Room rooms;
+    private Long id;
 
-    @CreationTimestamp
-    @Column (
-            name = "ts_check_in"
+    @OneToOne (
+            cascade = CascadeType.ALL
     )
-    private LocalDateTime tsCheckIn;
-
-    @UpdateTimestamp
-    @Column (
-            name = "ts_check_out"
+    @JoinColumn (
+            name = "room_type_id",
+            nullable = false
     )
-    private LocalDateTime tsCheckOut;
+    private RoomType roomsType;
 
-    @ManyToOne
-    private Hotel hotel;
+    @OneToOne (
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn (
+            name = "room_status_id",
+            nullable = false
+    )
+    private RoomStatus roomsStatus;
+
+    @Column (
+            name = "room_capacity",
+            nullable = false
+    )
+    private Integer roomCapacity;
+
+    @Column (
+            name = "room_name",
+            nullable = false
+    )
+    private Integer roomName;
+
+    @Column (
+            name = "room_price"
+    )
+    private Double roomPrice;
 }
