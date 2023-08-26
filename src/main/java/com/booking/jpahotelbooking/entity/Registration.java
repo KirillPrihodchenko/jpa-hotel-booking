@@ -1,26 +1,23 @@
 package com.booking.jpahotelbooking.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import jakarta.persistence.Id;
+import lombok.ToString;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -43,17 +40,18 @@ public class Registration {
     )
     private Long id;
 
-    @ManyToMany (
+    @OneToOne(
             cascade = CascadeType.ALL
     )
     @JoinColumn (
             name = "guest_id"
     )
-    private List<Guest> guests;
+    private Guest guests;
 
     @OneToOne
     @JoinColumn (
             name = "room_id",
+            referencedColumnName = "room_id",
             nullable = false
     )
     private Room rooms;
@@ -69,7 +67,4 @@ public class Registration {
             name = "ts_check_out"
     )
     private LocalDateTime tsCheckOut;
-
-    @ManyToOne
-    private Hotel hotel;
 }

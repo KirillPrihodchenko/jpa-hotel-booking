@@ -12,6 +12,7 @@ public class RoomMapper implements GenericMapper<RoomRequestDTO, RoomResponseDTO
 
     public RoomMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
+
     }
 
     @Override

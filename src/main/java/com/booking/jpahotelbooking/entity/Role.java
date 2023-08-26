@@ -1,18 +1,16 @@
 package com.booking.jpahotelbooking.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.Id;
 import lombok.ToString;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -37,13 +35,8 @@ public class Role {
     private Long id;
 
     @Column (
-            name = "role_name",
+            name = "role_type",
             nullable = false
     )
-    @Enumerated(EnumType.STRING)
-    private RoleName roleName;
-
-    public enum RoleName {
-        ADMIN, MANAGER, USER
-    }
+    private String roleType;
 }

@@ -1,6 +1,5 @@
 package com.booking.jpahotelbooking.entity.dto.employee;
 
-import com.booking.jpahotelbooking.entity.dto.role.RoleDTO;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -13,5 +12,5 @@ public class EmployeeResponseDTO {
     @NotEmpty
     private String lastName;
     @NotNull
-    private RoleDTO roles;
+    private String roles;
 }

@@ -1,22 +1,21 @@
 package com.booking.jpahotelbooking.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
+import jakarta.persistence.Table;
+import lombok.NoArgsConstructor;
+import jakarta.persistence.Id;
+import lombok.ToString;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
@@ -47,20 +46,6 @@ public class Employee {
     )
     private Long id;
 
-    @ManyToOne
-    @JoinColumn (
-            name = "hotel_id"
-    )
-    private Hotel hotel;
-
-    @OneToOne (
-            cascade = CascadeType.ALL
-    )
-    @JoinColumn (
-            name = "role_id"
-    )
-    private Role roles;
-
     @Column (
             name = "first_name",
             nullable = false
@@ -72,6 +57,20 @@ public class Employee {
             nullable = false
     )
     private String lastName;
+
+    @ManyToOne
+    @JoinColumn (
+            name = "hotel_id"
+    )
+    private Hotel hotel;
+
+    @ManyToOne (
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn (
+            name = "role_id"
+    )
+    private Role roles;
 
     @Column (
             name = "phone"

@@ -1,16 +1,18 @@
 package com.booking.jpahotelbooking.service;
 
 import com.booking.jpahotelbooking.entity.Employee;
+import com.booking.jpahotelbooking.entity.dto.employee.EmployeeMapper;
 import com.booking.jpahotelbooking.entity.dto.employee.EmployeeRequestDTO;
-import com.booking.jpahotelbooking.entity.dto.role.RoleDTO;
 import com.booking.jpahotelbooking.repository.EmployeeRepository;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @AllArgsConstructor
@@ -19,13 +21,13 @@ import java.util.NoSuchElementException;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-    private final RoleService roleService;
+    private final EmployeeMapper employeeMapper;
 
-    public Iterable<Employee> getAll() {
+    public List<Employee> getAll() {
 
         try {
 
-            return employeeRepository.findAll();
+            return (List<Employee>) employeeRepository.findAll();
         }
         catch (NoSuchElementException e) {
             throw new ResponseStatusException(
@@ -46,7 +48,23 @@ public class EmployeeService {
         ));
     }
 
-    public Employee updateEmployee(Long id, EmployeeRequestDTO employee, RoleDTO roles) {
+    public Employee createEmployee(@NotNull EmployeeRequestDTO employeeReqDTO) {
+
+        try {
+
+            Employee employee = employeeMapper.convertToEntity(employeeReqDTO);
+
+            return employeeRepository.save(employee);
+        }
+        catch (Exception e) {
+
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    e.getMessage());
+        }
+    }
+
+    public Long updateEmployee(Long id, EmployeeRequestDTO employee) {
 
         try {
 
@@ -54,47 +72,45 @@ public class EmployeeService {
 
             changedEmployee.setFirstName(employee.getFirstName());
             changedEmployee.setLastName(employee.getLastName());
-            changedEmployee.setRoles(roleService.createRole(roles));
+            changedEmployee.setRoles(employee.getRoles());
             changedEmployee.setHotel(employee.getHotel());
             changedEmployee.setPhone(employee.getPhone());
             changedEmployee.setSalary(employee.getSalary());
 
-            return employeeRepository.save(changedEmployee);
+            employeeRepository.save(changedEmployee);
+
+            return id;
         }
         catch (Exception e) {
-
             throw new ResponseStatusException (
-                    HttpStatus.BAD_REQUEST,
-                    "Employer not updated", e
+                    HttpStatus.NOT_MODIFIED,
+                    "Employee hasn't modified", e
             );
         }
     }
 
-    public void deleteEmployeeById(Long id) {
+    public Long deleteEmployeeById(Long id) {
 
         try {
 
             employeeRepository.deleteById(id);
+            return id;
+        }
+        catch (ResponseStatusException e) {
+
+            System.out.println("Status: " + HttpStatus.NO_CONTENT + " message: " + e.getMessage());
+            return -1L;
         }
         catch (EmptyResultDataAccessException e) {
 
             System.out.println("Employee with ID " + id + " not found");
+            return -2L;
         }
         catch (Exception e) {
 
             System.out.println("An error occurred while deleting employee: " + e.getMessage());
+            return -3L;
         }
-    }
-
-    public Employee getByLastNameAndPassportInfo(String lastName, String passportInfo) {
-
-        return employeeRepository
-                .findByLastNameAndPassportInfo(lastName, passportInfo)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        String.format("Employee with this %s and %s not found", lastName, passportInfo)
-                )
-        );
     }
 
     private Employee existEmployee(Long id) {
