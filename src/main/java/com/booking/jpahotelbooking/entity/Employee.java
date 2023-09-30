@@ -1,5 +1,6 @@
 package com.booking.jpahotelbooking.entity;
 
+import jakarta.validation.constraints.Pattern;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,7 +23,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Builder(toBuilder = true)
+@Builder
 
 @Entity
 @Table (
@@ -31,6 +32,10 @@ import lombok.Setter;
                 @UniqueConstraint(
                         name = "employee_passport_info_unique",
                         columnNames = "passport_info"
+                ),
+                @UniqueConstraint(
+                        name = "employee_email_unique",
+                        columnNames = "email"
                 )
         }
 )
@@ -70,17 +75,33 @@ public class Employee {
     @JoinColumn (
             name = "role_id"
     )
-    private Role roles;
+    private Role role;
 
-    @Column (
-            name = "phone"
-    )
-    private String phone;
 
     @Column (
             name = "salary"
     )
     private Double salary;
+
+    @Column (
+            name = "email",
+            nullable = false
+    )
+    @Pattern(
+            regexp = "[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+@gmail\\.com"
+    )
+    private String email;
+
+    @Column (
+            name = "password",
+            nullable = false
+    )
+    private String password;
+
+    @Column (
+            name = "phone"
+    )
+    private String phone;
 
     @Column (
             name = "passport_info",

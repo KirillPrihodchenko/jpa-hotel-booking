@@ -1,19 +1,18 @@
 package com.booking.jpahotelbooking.service;
 
-import com.booking.jpahotelbooking.entity.Employee;
-import com.booking.jpahotelbooking.entity.dto.employee.EmployeeMapper;
 import com.booking.jpahotelbooking.entity.dto.employee.EmployeeRequestDTO;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.booking.jpahotelbooking.repository.EmployeeRepository;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import com.booking.jpahotelbooking.entity.Employee;
+import jakarta.validation.constraints.NotBlank;
+import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
+import lombok.AllArgsConstructor;
 
-import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.List;
 
 @AllArgsConstructor
 
@@ -21,7 +20,7 @@ import java.util.NoSuchElementException;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-    private final EmployeeMapper employeeMapper;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public List<Employee> getAll() {
 
@@ -48,11 +47,18 @@ public class EmployeeService {
         ));
     }
 
-    public Employee createEmployee(@NotNull EmployeeRequestDTO employeeReqDTO) {
+    public Employee createEmployee(EmployeeRequestDTO employeeReqDTO) {
 
         try {
 
-            Employee employee = employeeMapper.convertToEntity(employeeReqDTO);
+            Employee employee = new Employee();
+            employee.setFirstName(employeeReqDTO.getFirstName());
+            employee.setLastName(employeeReqDTO.getLastName());
+            employee.setHotel(employeeReqDTO.getHotel());
+            employee.setRole(employeeReqDTO.getRole());
+            employee.setEmail(employeeReqDTO.getEmail());
+            employee.setPassword(bCryptPasswordEncoder.encode(employeeReqDTO.getPassword()));
+            employee.setPassportInfo(employeeReqDTO.getPassportInfo());
 
             return employeeRepository.save(employee);
         }
@@ -72,10 +78,12 @@ public class EmployeeService {
 
             changedEmployee.setFirstName(employee.getFirstName());
             changedEmployee.setLastName(employee.getLastName());
-            changedEmployee.setRoles(employee.getRoles());
+            changedEmployee.setRole(employee.getRole());
             changedEmployee.setHotel(employee.getHotel());
             changedEmployee.setPhone(employee.getPhone());
-            changedEmployee.setSalary(employee.getSalary());
+            changedEmployee.setEmail(employee.getEmail());
+            changedEmployee.setPassword(employee.getPassword());
+            changedEmployee.setPassportInfo(employee.getPassportInfo());
 
             employeeRepository.save(changedEmployee);
 
@@ -89,27 +97,24 @@ public class EmployeeService {
         }
     }
 
-    public Long deleteEmployeeById(Long id) {
+    public String deleteEmployeeById(Long id) {
 
         try {
 
             employeeRepository.deleteById(id);
-            return id;
+            return "Employee has deleted successfully";
         }
         catch (ResponseStatusException e) {
 
-            System.out.println("Status: " + HttpStatus.NO_CONTENT + " message: " + e.getMessage());
-            return -1L;
+            return "Status: " + HttpStatus.NO_CONTENT + " message: " + e.getMessage();
         }
         catch (EmptyResultDataAccessException e) {
 
-            System.out.println("Employee with ID " + id + " not found");
-            return -2L;
+            return "Employee with ID " + id + " not found";
         }
         catch (Exception e) {
 
-            System.out.println("An error occurred while deleting employee: " + e.getMessage());
-            return -3L;
+            return "An error occurred while deleting employee: " + e.getMessage();
         }
     }
 

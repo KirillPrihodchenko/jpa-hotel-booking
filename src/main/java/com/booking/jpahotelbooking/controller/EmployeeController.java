@@ -2,7 +2,6 @@ package com.booking.jpahotelbooking.controller;
 
 import com.booking.jpahotelbooking.entity.dto.employee.EmployeeRequestDTO;
 import com.booking.jpahotelbooking.service.EmployeeService;
-import com.booking.jpahotelbooking.entity.Employee;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import lombok.AllArgsConstructor;
@@ -17,8 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.List;
-
 @AllArgsConstructor
 
 @RestController
@@ -28,7 +25,7 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @GetMapping
-    public ResponseEntity<List<Employee>> getAllEmployees() {
+    public ResponseEntity<?> getAllEmployees() {
 
         return new ResponseEntity<>(
                 employeeService.getAll(),
@@ -36,7 +33,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/byFullName")
-    public ResponseEntity<Employee> getEmployeeByFullName(
+    public ResponseEntity<?> getEmployeeByFullName(
             @RequestParam @Validated String firstName, @RequestParam @Validated String lastName) {
 
         return new ResponseEntity<>(
@@ -46,7 +43,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Employee> createEmployee(
+    public ResponseEntity<?> createEmployee(
             @RequestBody @Validated EmployeeRequestDTO employeeRequestDTO) {
 
         return new ResponseEntity<>(
@@ -56,7 +53,7 @@ public class EmployeeController {
     }
 
     @PatchMapping("/{id}/update")
-    public ResponseEntity<Long> partialUpdateEmployee(
+    public ResponseEntity<?> partialUpdateEmployee(
             @PathVariable Long id,
             @RequestBody @Validated EmployeeRequestDTO employeeRequestDTO) {
 
@@ -67,7 +64,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{id}/delete")
-    public ResponseEntity<Long> deleteEmployee(@PathVariable Long id) {
+    public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
 
         return new ResponseEntity<>(
                 employeeService.deleteEmployeeById(id),
