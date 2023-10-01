@@ -3,7 +3,6 @@ package com.booking.jpahotelbooking.controller;
 import com.booking.jpahotelbooking.entity.dto.room.RoomRequestDTO;
 import com.booking.jpahotelbooking.service.RoomService;
 import org.springframework.http.ResponseEntity;
-import com.booking.jpahotelbooking.entity.Room;
 import org.springframework.http.HttpStatus;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.List;
-
 @AllArgsConstructor
 
 @RestController
@@ -27,7 +24,7 @@ public class RoomController {
     private final RoomService roomService;
 
     @GetMapping
-    public ResponseEntity<List<Room>> getAllRooms() {
+    public ResponseEntity<?> getAllRooms() {
 
         return new ResponseEntity<>(
                 roomService.getAll(),
@@ -36,7 +33,7 @@ public class RoomController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Room> createRoom(
+    public ResponseEntity<?> createRoom(
             @RequestBody @Validated RoomRequestDTO requestDTO) {
 
         return new ResponseEntity<>(
@@ -46,7 +43,7 @@ public class RoomController {
     }
 
     @PatchMapping("{id}/updateStatus")
-    public ResponseEntity<Room> updateStatus(
+    public ResponseEntity<?> updateStatus(
             @PathVariable Long id,
             @RequestParam @Validated Boolean status) {
 

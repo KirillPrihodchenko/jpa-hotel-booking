@@ -42,6 +42,7 @@ public class RegistrationService {
 
             Registration registration =
                     registrationMapper.convertToEntity(registrationRequestDTO);
+
             return registrationRepository.save(registration);
         }
         catch (Exception e) {

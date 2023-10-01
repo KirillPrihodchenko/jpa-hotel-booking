@@ -10,4 +10,5 @@ public class GuestRequestDTO {
     private String phone;
     private String email;
     private String password;
+    private String passportInfo;
 }

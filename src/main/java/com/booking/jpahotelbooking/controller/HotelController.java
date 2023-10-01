@@ -1,7 +1,5 @@
 package com.booking.jpahotelbooking.controller;
 
-import com.booking.jpahotelbooking.entity.dto.employee.EmployeeResponseDTO;
-import com.booking.jpahotelbooking.entity.dto.hotel.HotelResponseDTO;
 import com.booking.jpahotelbooking.service.HotelService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
@@ -12,9 +10,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import lombok.AllArgsConstructor;
 
-import java.util.List;
-import java.util.Set;
-
 @AllArgsConstructor
 
 @RestController
@@ -24,7 +19,7 @@ public class HotelController {
     private final HotelService hotelService;
 
     @GetMapping
-    public ResponseEntity<List<HotelResponseDTO>> getAllHotels() {
+    public ResponseEntity<?> getAllHotels() {
 
         return new ResponseEntity<>(
                 hotelService.getAll(),
@@ -33,7 +28,7 @@ public class HotelController {
     }
 
     @GetMapping("/employees")
-    public ResponseEntity<Set<EmployeeResponseDTO>> getAllEmployeesByHotelName(
+    public ResponseEntity<?> getAllEmployeesByHotelName(
                             @RequestParam @Validated String hotelName) {
 
         return new ResponseEntity<>(

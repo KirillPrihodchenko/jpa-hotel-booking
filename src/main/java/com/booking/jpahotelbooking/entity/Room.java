@@ -8,13 +8,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
+import lombok.*;
 import jakarta.persistence.Table;
-import lombok.NoArgsConstructor;
 import jakarta.persistence.Id;
-import lombok.ToString;
-import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 @Setter

@@ -28,7 +28,7 @@ public class GuestController {
     private final GuestService guestService;
 
     @GetMapping
-    public ResponseEntity<List<Guest>> getAll() {
+    public ResponseEntity<?> getAll() {
 
         return new ResponseEntity<>(
                 guestService.getAll(),
@@ -37,7 +37,7 @@ public class GuestController {
     }
 
     @GetMapping("/by")
-    public ResponseEntity<Guest> byLastName(@RequestParam @Validated String lastName) {
+    public ResponseEntity<?> byLastName(@RequestParam @Validated String lastName) {
 
         return new ResponseEntity<>(
                 guestService.getByLastName(lastName),
@@ -46,7 +46,7 @@ public class GuestController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Guest> create(@RequestBody GuestRequestDTO requestDTO) {
+    public ResponseEntity<?> create(@RequestBody GuestRequestDTO requestDTO) {
 
         return new ResponseEntity<>(
                 guestService.createGuest(requestDTO),
@@ -55,7 +55,7 @@ public class GuestController {
     }
 
     @PatchMapping("{id}/update")
-    public ResponseEntity<Long> update(
+    public ResponseEntity<?> update(
                     @PathVariable Long id,
                     @RequestBody @Validated GuestRequestDTO requestDTO) {
 
@@ -66,7 +66,7 @@ public class GuestController {
     }
 
     @DeleteMapping("{id}/delete")
-    public ResponseEntity<Long> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
 
         return new ResponseEntity<>(
                 guestService.deleteGuestById(id),

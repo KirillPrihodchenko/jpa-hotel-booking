@@ -1,18 +1,19 @@
 package com.booking.jpahotelbooking.service;
 
-import com.booking.jpahotelbooking.entity.Guest;
-import com.booking.jpahotelbooking.entity.dto.guest.GuestMapper;
+import com.booking.jpahotelbooking.exception.GuestNotModifiedException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.booking.jpahotelbooking.entity.dto.guest.GuestRequestDTO;
+import org.springframework.web.server.ResponseStatusException;
 import com.booking.jpahotelbooking.repository.GuestRepository;
+import com.booking.jpahotelbooking.entity.Guest;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 import lombok.AllArgsConstructor;
 
-import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.List;
 
 @AllArgsConstructor
 
@@ -20,7 +21,7 @@ import java.util.NoSuchElementException;
 public class GuestService {
 
     private final GuestRepository guestRepository;
-    private final GuestMapper guestMapper;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public List<Guest> getAll() {
 
@@ -50,8 +51,16 @@ public class GuestService {
 
         try {
 
-            Guest guests = guestMapper.convertToEntity(guestsRequestDTO);
-            return guestRepository.save(guests);
+            Guest createdGuest = new Guest();
+
+            createdGuest.setFirstName(guestsRequestDTO.getFirstName());
+            createdGuest.setLastName(guestsRequestDTO.getLastName());
+            createdGuest.setPhone(guestsRequestDTO.getPhone());
+            createdGuest.setEmail(guestsRequestDTO.getEmail());
+            createdGuest.setPassword(bCryptPasswordEncoder.encode(guestsRequestDTO.getPassword()));
+            createdGuest.setPassportInfo(guestsRequestDTO.getPassportInfo());
+
+            return guestRepository.save(createdGuest);
         }
         catch (Exception e) {
 
@@ -70,30 +79,31 @@ public class GuestService {
             changedGuest.setFirstName(requestDTO.getFirstName());
             changedGuest.setLastName(requestDTO.getLastName());
             changedGuest.setPhone(requestDTO.getPhone());
+            changedGuest.setEmail(requestDTO.getEmail());
+            changedGuest.setPassword(bCryptPasswordEncoder.encode(requestDTO.getPassword()));
+            changedGuest.setPassportInfo(requestDTO.getPassportInfo());
             guestRepository.save(changedGuest);
 
             return id;
         }
         catch (Exception e) {
 
-            throw new ResponseStatusException (
-                    HttpStatus.NOT_MODIFIED,
-                    "Guest hasn't modified", e
+            throw new GuestNotModifiedException(
+                    "Guest hasn't modified"
             );
         }
     }
 
-    public Long deleteGuestById(Long id) {
+    public String deleteGuestById(Long id) {
 
         try {
 
             guestRepository.deleteById(id);
-            return id;
+            return "Employee has deleted successfully";
         }
         catch (ResponseStatusException e) {
 
-            System.out.println("Status: " + HttpStatus.NO_CONTENT + " message: " + e.getMessage());
-            return -1L;
+            return "Status: " + HttpStatus.NO_CONTENT + " message: " + e.getMessage();
         }
     }
 

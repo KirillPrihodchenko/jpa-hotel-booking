@@ -1,5 +1,6 @@
 package com.booking.jpahotelbooking.service;
 
+import com.booking.jpahotelbooking.exception.EmployeeNotModifiedException;
 import com.booking.jpahotelbooking.entity.dto.employee.EmployeeRequestDTO;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.booking.jpahotelbooking.repository.EmployeeRepository;
@@ -29,6 +30,7 @@ public class EmployeeService {
             return (List<Employee>) employeeRepository.findAll();
         }
         catch (NoSuchElementException e) {
+
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
                     "Employees not found", e);
@@ -52,6 +54,7 @@ public class EmployeeService {
         try {
 
             Employee employee = new Employee();
+
             employee.setFirstName(employeeReqDTO.getFirstName());
             employee.setLastName(employeeReqDTO.getLastName());
             employee.setHotel(employeeReqDTO.getHotel());
@@ -90,9 +93,9 @@ public class EmployeeService {
             return id;
         }
         catch (Exception e) {
-            throw new ResponseStatusException (
-                    HttpStatus.NOT_MODIFIED,
-                    "Employee hasn't modified", e
+
+            throw new EmployeeNotModifiedException(
+                    "Employee hasn't modified"
             );
         }
     }
@@ -102,6 +105,7 @@ public class EmployeeService {
         try {
 
             employeeRepository.deleteById(id);
+
             return "Employee has deleted successfully";
         }
         catch (ResponseStatusException e) {

@@ -51,6 +51,7 @@ public class HotelService {
         Set<Employee> employeesSet = hotelRepository.findAllEmployeesByHotelName(hotelName);
 
         if (employeesSet.isEmpty()) {
+
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
                     String.format("Employees in hotel [%s] not found", hotelName));

@@ -8,7 +8,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 @ComponentScan (basePackages = {
         "com.booking.jpahotelbooking.entity",
-        "com.booking.jpahotelbooking.controller"
+        "com.booking.jpahotelbooking.controller",
+        "com.booking.jpahotelbooking.service"
     }
 )
 public class WebConfig {

@@ -1,9 +1,11 @@
 package com.booking.jpahotelbooking.service;
 
 import com.booking.jpahotelbooking.entity.dto.room.RoomRequestDTO;
+import com.booking.jpahotelbooking.exception.RoomStatusIsNotUpdatedException;
 import org.springframework.web.server.ResponseStatusException;
 import com.booking.jpahotelbooking.entity.dto.room.RoomMapper;
 import com.booking.jpahotelbooking.repository.RoomRepository;
+import jakarta.persistence.EntityNotFoundException;
 import com.booking.jpahotelbooking.entity.Room;
 import org.springframework.stereotype.Service;
 import org.springframework.http.HttpStatus;
@@ -39,9 +41,11 @@ public class RoomService {
         try {
 
             Room rooms = roomMapper.convertToEntity(roomsRequestDTO);
+
             if (roomsRequestDTO.getStatus() == null) {
                 roomsRequestDTO.setStatus(false);
             }
+
             return roomRepository.save(rooms);
         }
         catch (Exception e) {
@@ -57,28 +61,20 @@ public class RoomService {
 
         try {
 
-            Room room = existRoom(id);
+            return roomRepository.updateStatusForRoom(id, status);
+        }
+        catch (EntityNotFoundException e) {
 
-            // getStatus() returned entity with field setRoomStatus()
-            room.getRoomsStatus().setRoomStatus(status);
-            return roomRepository.save(room);
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Room not found"
+            );
         }
         catch (Exception e) {
 
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_MODIFIED,
-                    "Room status hasn't modified"
+            throw new RoomStatusIsNotUpdatedException(
+                    "Failed to update room status"
             );
         }
-    }
-
-    private Room existRoom(Long id) {
-
-        return roomRepository
-                .findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        String.format("Room with id [%d] not found", id)
-                ));
     }
 }
