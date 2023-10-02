@@ -1,22 +1,25 @@
 package com.booking.jpahotelbooking.entity;
 
-import jakarta.validation.constraints.Pattern;
-import jakarta.persistence.UniqueConstraint;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
-import jakarta.persistence.Table;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Collection;
 
 @Getter
 @Setter
@@ -69,13 +72,13 @@ public class Employee {
     )
     private Hotel hotel;
 
-    @ManyToOne (
-            cascade = CascadeType.ALL
+    @ManyToMany
+    @JoinTable(
+            name = "employee_roles",
+            joinColumns = @JoinColumn(name = "employee_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    @JoinColumn (
-            name = "role_id"
-    )
-    private Role role;
+    private Collection<Role> role;
 
 
     @Column (

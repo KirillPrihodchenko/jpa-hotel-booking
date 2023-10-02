@@ -37,8 +37,7 @@ public class Role {
     private Long id;
 
     @Column (
-            name = "role_type",
-            nullable = false
+            name = "role_type"
     )
     private String roleType;
 }

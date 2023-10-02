@@ -2,26 +2,30 @@ package com.booking.jpahotelbooking.service;
 
 import com.booking.jpahotelbooking.exception.EmployeeNotModifiedException;
 import com.booking.jpahotelbooking.entity.dto.employee.EmployeeRequestDTO;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.booking.jpahotelbooking.repository.EmployeeRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import com.booking.jpahotelbooking.entity.Employee;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.stereotype.Service;
 import org.springframework.http.HttpStatus;
-import lombok.AllArgsConstructor;
 
 import java.util.NoSuchElementException;
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 
 @Service
-public class EmployeeService {
+public class EmployeeService implements UserDetailsService {
 
     private final EmployeeRepository employeeRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public List<Employee> getAll() {
 
@@ -58,9 +62,9 @@ public class EmployeeService {
             employee.setFirstName(employeeReqDTO.getFirstName());
             employee.setLastName(employeeReqDTO.getLastName());
             employee.setHotel(employeeReqDTO.getHotel());
-            employee.setRole(employeeReqDTO.getRole());
+            employee.setRole(List.of(employeeReqDTO.getRole()));
             employee.setEmail(employeeReqDTO.getEmail());
-            employee.setPassword(bCryptPasswordEncoder.encode(employeeReqDTO.getPassword()));
+            employee.setPassword(employeeReqDTO.getPassword());
             employee.setPassportInfo(employeeReqDTO.getPassportInfo());
 
             return employeeRepository.save(employee);
@@ -81,7 +85,7 @@ public class EmployeeService {
 
             changedEmployee.setFirstName(employee.getFirstName());
             changedEmployee.setLastName(employee.getLastName());
-            changedEmployee.setRole(employee.getRole());
+            changedEmployee.setRole(List.of(employee.getRole()));
             changedEmployee.setHotel(employee.getHotel());
             changedEmployee.setPhone(employee.getPhone());
             changedEmployee.setEmail(employee.getEmail());
@@ -120,6 +124,22 @@ public class EmployeeService {
 
             return "An error occurred while deleting employee: " + e.getMessage();
         }
+    }
+
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        Employee employee = employeeRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException(
+                        String.format("Employee with [%s] not found", username)
+                ));
+
+        return new User(
+                employee.getEmail(),
+                employee.getPassword(),
+                employee.getRole().stream().map(role -> new SimpleGrantedAuthority(role.getRoleType())).toList()
+        );
     }
 
     private Employee existEmployee(Long id) {

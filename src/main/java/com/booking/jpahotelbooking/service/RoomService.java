@@ -1,6 +1,7 @@
 package com.booking.jpahotelbooking.service;
 
 import com.booking.jpahotelbooking.entity.dto.room.RoomRequestDTO;
+import com.booking.jpahotelbooking.entity.dto.room.RoomResponseDTO;
 import com.booking.jpahotelbooking.exception.RoomStatusIsNotUpdatedException;
 import org.springframework.web.server.ResponseStatusException;
 import com.booking.jpahotelbooking.entity.dto.room.RoomMapper;
@@ -22,11 +23,11 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final RoomMapper roomMapper;
 
-    public List<Room> getAll() {
+    public List<RoomResponseDTO> getAll() {
 
         try {
 
-            return roomRepository.findAll();
+            return roomRepository.findAllRoom();
         }
         catch (NoSuchElementException e) {
 

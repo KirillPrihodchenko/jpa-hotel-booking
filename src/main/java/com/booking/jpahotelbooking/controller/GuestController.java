@@ -3,7 +3,6 @@ package com.booking.jpahotelbooking.controller;
 import com.booking.jpahotelbooking.entity.dto.guest.GuestRequestDTO;
 import org.springframework.validation.annotation.Validated;
 import com.booking.jpahotelbooking.service.GuestService;
-import com.booking.jpahotelbooking.entity.Guest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import lombok.AllArgsConstructor;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.List;
 
 @AllArgsConstructor
 

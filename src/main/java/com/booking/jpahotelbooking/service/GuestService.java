@@ -1,8 +1,14 @@
 package com.booking.jpahotelbooking.service;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import com.booking.jpahotelbooking.exception.GuestNotModifiedException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.booking.jpahotelbooking.entity.dto.guest.GuestRequestDTO;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import com.booking.jpahotelbooking.repository.GuestRepository;
 import com.booking.jpahotelbooking.entity.Guest;
@@ -10,18 +16,16 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.http.HttpStatus;
-import lombok.AllArgsConstructor;
 
 import java.util.NoSuchElementException;
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 
 @Service
-public class GuestService {
+public class GuestService implements UserDetailsService {
 
     private final GuestRepository guestRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public List<Guest> getAll() {
 
@@ -57,7 +61,7 @@ public class GuestService {
             createdGuest.setLastName(guestsRequestDTO.getLastName());
             createdGuest.setPhone(guestsRequestDTO.getPhone());
             createdGuest.setEmail(guestsRequestDTO.getEmail());
-            createdGuest.setPassword(bCryptPasswordEncoder.encode(guestsRequestDTO.getPassword()));
+            createdGuest.setPassword(guestsRequestDTO.getPassword());
             createdGuest.setPassportInfo(guestsRequestDTO.getPassportInfo());
 
             return guestRepository.save(createdGuest);
@@ -80,7 +84,7 @@ public class GuestService {
             changedGuest.setLastName(requestDTO.getLastName());
             changedGuest.setPhone(requestDTO.getPhone());
             changedGuest.setEmail(requestDTO.getEmail());
-            changedGuest.setPassword(bCryptPasswordEncoder.encode(requestDTO.getPassword()));
+            changedGuest.setPassword(requestDTO.getPassword());
             changedGuest.setPassportInfo(requestDTO.getPassportInfo());
             guestRepository.save(changedGuest);
 
@@ -105,6 +109,22 @@ public class GuestService {
 
             return "Status: " + HttpStatus.NO_CONTENT + " message: " + e.getMessage();
         }
+    }
+
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        Guest guest = guestRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException(
+                        String.format("Guest with [%s] not found", username)
+                ));
+
+        return new User(
+                guest.getEmail(),
+                guest.getPassword(),
+                guest.getRole().stream().map(role -> new SimpleGrantedAuthority(role.getRoleType())).toList()
+        );
     }
 
     private Guest existGuest(Long id) {

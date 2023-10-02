@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface GuestRepository extends CrudRepository<Guest, Long> {
 
     Optional<Guest> findByLastName(String lastName);
+
+    Optional<Guest> findByEmail(String email);
 }
