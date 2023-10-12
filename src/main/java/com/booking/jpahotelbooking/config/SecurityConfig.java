@@ -1,22 +1,22 @@
 package com.booking.jpahotelbooking.config;
 
-import com.booking.jpahotelbooking.auth.JWTTokenFilter;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import com.booking.jpahotelbooking.auth.util.JWTTokenFilter;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.context.annotation.Configuration;
 import com.booking.jpahotelbooking.service.EmployeeService;
 import com.booking.jpahotelbooking.service.GuestService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.HttpStatusEntryPoint;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
 

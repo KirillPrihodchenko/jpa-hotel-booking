@@ -1,4 +1,4 @@
-package com.booking.jpahotelbooking.auth;
+package com.booking.jpahotelbooking.auth.util;
 
 import com.booking.jpahotelbooking.exception.InvalidJWTAuthenticationException;
 import io.jsonwebtoken.ExpiredJwtException;

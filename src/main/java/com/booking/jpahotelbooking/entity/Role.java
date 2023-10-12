@@ -36,8 +36,9 @@ public class Role {
     )
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column (
             name = "role_type"
     )
-    private String roleType;
+    private eRole roleType;
 }

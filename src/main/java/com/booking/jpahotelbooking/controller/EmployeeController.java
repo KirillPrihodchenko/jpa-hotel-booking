@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -32,7 +31,7 @@ public class EmployeeController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("/byFullName")
+    @GetMapping("/full-name")
     public ResponseEntity<?> getEmployeeByFullName(
             @RequestParam @Validated String firstName, @RequestParam @Validated String lastName) {
 
@@ -42,17 +41,7 @@ public class EmployeeController {
         );
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<?> createEmployee(
-            @RequestBody @Validated EmployeeRequestDTO employeeRequestDTO) {
-
-        return new ResponseEntity<>(
-                employeeService.createEmployee(employeeRequestDTO),
-                HttpStatus.CREATED
-        );
-    }
-
-    @PatchMapping("/{id}/update")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> partialUpdateEmployee(
             @PathVariable Long id,
             @RequestBody @Validated EmployeeRequestDTO employeeRequestDTO) {
@@ -63,7 +52,7 @@ public class EmployeeController {
         );
     }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
 
         return new ResponseEntity<>(

@@ -1,15 +1,24 @@
 package com.booking.jpahotelbooking.entity;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
+import jakarta.persistence.Table;
 import lombok.NoArgsConstructor;
+import jakarta.persistence.Id;
 import lombok.ToString;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Collection;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -74,11 +83,17 @@ public class Guest {
             name = "password",
             nullable = false
     )
+    @Pattern(
+            regexp = "^(?=.*[A-Z]).{8,}$"
+    )
     private String password;
 
     @Column (
             name = "passport_info",
             nullable = false
+    )
+    @Pattern(
+            regexp = "^\\d{9}$"
     )
     private String passportInfo;
 
@@ -88,5 +103,5 @@ public class Guest {
             joinColumns = @JoinColumn(name = "guest_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Collection<Role> role;
+    private Set<Role> role;
 }

@@ -123,7 +123,10 @@ public class GuestService implements UserDetailsService {
         return new User(
                 guest.getEmail(),
                 guest.getPassword(),
-                guest.getRole().stream().map(role -> new SimpleGrantedAuthority(role.getRoleType())).toList()
+                guest.getRole()
+                        .stream()
+                        .map(role -> new SimpleGrantedAuthority(role.getRoleType().extractRoleProperty()))
+                        .toList()
         );
     }
 

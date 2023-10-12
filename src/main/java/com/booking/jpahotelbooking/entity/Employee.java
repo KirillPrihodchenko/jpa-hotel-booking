@@ -1,25 +1,25 @@
 package com.booking.jpahotelbooking.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.validation.constraints.Pattern;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
-import jakarta.validation.constraints.Pattern;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
+import jakarta.persistence.Table;
 import lombok.NoArgsConstructor;
+import jakarta.persistence.Id;
 import lombok.ToString;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Collection;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -78,7 +78,7 @@ public class Employee {
             joinColumns = @JoinColumn(name = "employee_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Collection<Role> role;
+    private Set<Role> role;
 
 
     @Column (
@@ -99,6 +99,9 @@ public class Employee {
             name = "password",
             nullable = false
     )
+    @Pattern(
+            regexp = "^(?=.*[A-Z]).{8,}$"
+    )
     private String password;
 
     @Column (
@@ -107,8 +110,10 @@ public class Employee {
     private String phone;
 
     @Column (
-            name = "passport_info",
-            nullable = false
+            name = "passport_info"
+    )
+    @Pattern(
+            regexp = "^\\d{9}$"
     )
     private String passportInfo;
 }
